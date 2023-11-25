@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 이 문서는 MyBatis에서 처리할 SQL문을 작성하는 문서입니다. -->
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<!-- 
+	<mapper>태그의 namespace속성값은 Java에서 SQL문을 호출할 때 사용되는 이름이다.  
+-->
+
+<mapper namespace="member">
+	<insert id="insertMember" parameterType="MemberVO">
+		INSERT INTO mymember(mem_id, mem_pass, mem_name, mem_tel, mem_addr)
+		VALUES (#{mem_id}, #{mem_pass}, #{mem_name}, #{mem_tel}, #{mem_addr})
+	</insert>
+	
+	<delete id="deleteMember" parameterType="String">
+		 DELETE FROM mymember WHERE mem_id = #{mem_id}
+	</delete>
+	
+	<update id="updateMember">
+		UPDATE mymember 
+		SET mem_pass = #{mem_pass}, mem_name = #{mem_name}, 
+			mem_tel = #{mem_tel}, mem_addr = #{mem_addr}
+		WHERE mem_id = #{mem_id}
+	</update>
+	
+	<!-- 
+	Map을 파라미터로 받아서 처리할 때의 변수명 역할을 Map의 key값으로 한다.
+	key값 정보 ==> 회원ID(MEMID), 수정할 컬럼명(FIELD), 수정할 데이터(DATA)
+	
+	파라미터로 가져온 값을 테이블명이나 컬럼명 등의 자리에서 사용할 경우에는
+	달러($)기호를 사용해서 작성한다.
+	-->
+	<update id="updateMember2" parameterType="map">
+		UPDATE mymember SET ${FIELD} = #{DATA}
+		WHERE mem_id = #{MEMID}
+	</update>
+	
+	<select id="getAllMember" resultType="memberVo">
+		 SELECT * FROM mymember
+	</select>
+	
+	<select id="getDupliMemberCnt" parameterType="string" resultType="int">
+		SELECT count(*) CNT FROM mymember
+		where mem_id = #{mem_id}
+	</select>
+	
+	<select id="getOneMember" parameterType="string" resultType="MemberVO">
+		SELECT * FROM mymember WHERE mem_id = #{mem_id}
+	</select>
+
+</mapper>

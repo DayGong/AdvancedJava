@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 이 문서는 MyBatis에서 처리할 SQL문을 작성하는 문서입니다. -->
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<!-- 
+	<mapper>태그의 namespace속성값은 Java에서 SQL문을 호출할 때 사용되는 이름이다.  
+-->
+
+<mapper namespace="board">
+	<insert id="insertBoard" parameterType="BoardVO">
+		INSERT INTO jdbc_board
+		(board_no, board_title, board_writer, board_date, board_cnt, board_content)
+		VALUES (board_seq.nextVal, #{board_title}, #{board_writer},
+			SYSDATE, 0, #{board_content})
+	</insert>
+	
+	<delete id="deleteBoard" parameterType="int">
+		DELETE FROM jdbc_board
+		WHERE board_no = #{board_no}
+	</delete>
+	
+	<update id="updateBoard" parameterType="BoardVO">
+		UPDATE jdbc_board SET
+		board_title = #{board_title}, board_content = #{board_content},
+			board_date = sysdate
+		where board_no = #{board_no}
+	</update>
+	
+	<update id="updateCntBoard" parameterType="int">
+		UPDATE jdbc_board SET board_cnt = board_cnt+1
+		WHERE board_no = #{board_no}
+	</update>
+	
+	<select id="getAllBoard" resultType="BoardVO">
+		SELECT board_no, board_title, board_writer,
+			to_char(board_date, 'yyyy-mm-dd') board_date,
+			board_cnt, board_content
+		FROM jdbc_board
+		ORDER BY board_no DESC
+	</select>
+	
+	<select id="getOneBoard" resultType="BoardVO" parameterType="int">
+		SELECT board_no, board_title, board_writer,
+			to_char(board_date, 'yyyy-mm-dd') board_date,
+			board_cnt, board_content
+		FROM jdbc_board
+		WHERE board_no = #{board_no}
+	</select>
+	
+	<select id="getSearchBoard" resultType="BoardVO" parameterType="string">
+		SELECT board_no, board_title, board_writer,
+			to_char(board_date, 'yyyy-mm-dd') board_date,
+			board_cnt, board_content
+		FROM jdbc_board
+		<!--  WHERE board_title LIKE '%' || #{search} || '%'  -->
+		WHERE board_title LIKE '%${search}%'
+		ORDER BY board_no DESC
+	</select>
+	
+</mapper>
