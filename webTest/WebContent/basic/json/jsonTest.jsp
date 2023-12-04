@@ -103,7 +103,7 @@ $(function() {
 	
 	// Map객체 처리
 	$('#mapBtn').on('click', function(){
-		$.ajax({
+		<%-- $.ajax({
 			url : "<%= request.getContextPath() %>/json/jsonTest.do", // 요청을 처리할 문서명
 			type : "post", 					// 전송방식(get 또는 post)
 			data : "choice=map",			// 서버로 전송할 데이터(없으면 생략 가능)
@@ -120,6 +120,18 @@ $(function() {
 				alert("오류: " + xhr.status);
 			},
 			dataType : "json"	// 응답 데이터의 Type 지정(text, xml, html, json...)
+		}) --%>
+		
+		$.ajax({
+			url : "http://api.odcloud.kr/api/3033892/v1/uddi:391c41ad-5751-4e01-85c7-e84be33e1955?page=1&perPage=10",
+			type : 'get',
+			success : function (data) {
+				$('#result').html(data);
+			},
+			error : function(xhr) {
+				alert("오류: " + xhr.status);
+			},
+			dataType : "json"
 		})
 	});
 });
