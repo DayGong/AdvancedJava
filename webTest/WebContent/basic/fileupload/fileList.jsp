@@ -41,7 +41,9 @@
 				<td><%= fileVo.getFile_writer() %></td>
 				<td><%= fileVo.getSave_file_name() %></td>
 				<td><%= fileVo.getOrigin_file_name() %></td>
+				<td><%= fileVo.getFile_size()%></td>
 				<td><%= fileVo.getFile_data() %></td>
+				<td><a href="<%= request.getContextPath() %>/fileDownload.do?fileno=<%= fileVo.getFile_no() %>">Download</a></td>
 			</tr>
 	<%
 		}

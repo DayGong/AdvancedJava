@@ -6,7 +6,7 @@
 <mapper namespace="fileinfo">
 	<insert id="insertFileinfo" parameterType="fileVo">
 		insert into fileinfo ( file_no, file_writer, origin_file_name,
-			save_file_name, file_size, file_date)
+			save_file_name, file_size, file_data)
 		values ( fileinfo_seq.nextval, #{file_writer}, #{origin_file_name},
 			#{save_file_name}, #{file_size}, sysdate)
 	</insert>
